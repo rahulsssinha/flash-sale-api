@@ -11,6 +11,7 @@ import com.example.flashsale.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 @RestController
 public class ProductController {
 
@@ -29,6 +30,7 @@ public class ProductController {
         return productService.addProduct(product);
 
     }
+    @RateLimiter(name = "purchaseLimiter")
     @PostMapping("/api/purchase/{productId}")
     public Product purchaseProduct(@PathVariable Long productId){
         return productService.purchaseProduct(productId);
